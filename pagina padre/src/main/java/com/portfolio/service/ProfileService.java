@@ -64,7 +64,7 @@ public class ProfileService {
                                 "Departamente de Obstretricia y Ginecología Universidad de Carabobo",
                                 "Graduado en Julio de 1999",
                                 "Formación integral en ecografía y cuidados orientados a la salud de la mujer y seguimiento del desarrollo fetal.",
-                                "/img/TituloObstetriciaginecologia.jpeg");
+                                "/img/TituloObstetriciaGinecologia.jpeg");
 
                 Experience exp8 = new Experience("Especialidad en Tecnología Láser",
                                 "Instituto Dermatoestético Láser Universidad de Carabobo",
