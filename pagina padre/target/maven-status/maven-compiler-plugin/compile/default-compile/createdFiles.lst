@@ -1,0 +1,7 @@
+com\portfolio\model\Person.class
+com\portfolio\model\Experience.class
+com\portfolio\model\Skill.class
+com\portfolio\PortfolioApplication.class
+com\portfolio\controller\ProfileController.class
+com\portfolio\service\ProfileService.class
+com\portfolio\model\Project.class

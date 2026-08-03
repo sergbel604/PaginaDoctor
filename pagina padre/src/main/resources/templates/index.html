@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${person.name} + ' - Portfolio'">Dr. Coné</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Comic Decorations -->
+    <div class="comic-decor">
+        <div class="decor-item plop" style="top: 15%; left: 5%;">¡PLOP!</div>
+        <div class="decor-item speech-bubble" style="top: 25%; right: 2%;">¡Exijo una<br>explicación!</div>
+    </div>
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content fade-in-up">
+                <div class="hero-text">
+                    <h1 th:text="${person.name}">Nombre</h1>
+                    <h2 class="gradient-text" th:text="${person.title}">Título</h2>
+                    <p class="bio" th:text="${person.about}">Sobre mí...</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/dr.sergiobeltranrojas?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-btn" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; border: none; box-shadow: 4px 4px 0px var(--text-color);"><i class="fab fa-instagram"></i> Sígueme</a>
+                        <a href="https://wa.me/56982493554?text=Hola%20Dr.%20Sergio%20Beltr%C3%A1n%2C%20quisiera%20agendar%20una%20consulta%20m%C3%A9dica." target="_blank" class="social-btn" style="background-color: #25D366; color: white; border: none; box-shadow: 4px 4px 0px var(--text-color);"><i class="fab fa-whatsapp"></i> Chat de Salud</a>
+                    </div>
+                </div>
+                <div class="hero-image-container">
+                    <img th:src="@{/img/FotoTeto.jpeg}" alt="Doctor Amigable" class="hero-image">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="section skills-section">
+        <div class="container">
+            <h3 class="section-title">Especialidades Médicas</h3>
+            <div class="skills-container">
+                <span class="skill-tag" th:each="skill : ${person.skills}" th:text="${skill.name}" th:attr="data-desc=${skill.description}" onclick="openModal(this)">Skill</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section experiences-section">
+        <div class="container">
+            <h3 class="section-title">Mis Estudios</h3>
+            <div class="timeline">
+                <div class="timeline-item" th:each="exp : ${person.experiences}">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content" style="cursor: pointer;" th:attr="data-cert=${exp.certificateUrl}" onclick="openCertModal(this)">
+                        <h4 th:text="${exp.role}">Rol</h4>
+                        <h5 th:text="${exp.company} + ' | ' + ${exp.duration}">Compañía</h5>
+                        <p th:text="${exp.description}">Descripción</p>
+                        <span class="cert-link"><i class="fas fa-certificate"></i> Ver Título</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section projects-section">
+        <div class="container">
+            <h3 class="section-title">Dónde Encontrarme</h3>
+            <div class="projects-grid">
+                <div class="project-card" th:each="project : ${person.projects}">
+                    <h4><i class="fas fa-hospital-user" style="color: var(--primary); margin-right: 8px;"></i><span th:text="${project.name}">Clínica</span></h4>
+                    <p th:text="${project.description}">Descripción</p>
+                    <div class="tech-stack">
+                        <i class="fas fa-stethoscope"></i> <span th:text="${project.technologies}">Tecnologías</span>
+                    </div>
+                    <a th:href="${project.url}" class="project-link" target="_blank">Agendar Hora <i class="fas fa-calendar-check"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; <span th:text="${#dates.year(#dates.createNow())}"></span> <span th:text="${person.name}"></span>. ¡Exijo una explicación a la mala salud!</p>
+    </footer>
+
+    <!-- Modal de Certificados -->
+    <div id="certModal" class="modal">
+        <div class="modal-content" style="padding: 1rem; border-radius: 10px; max-width: 800px; background: transparent; border: none; box-shadow: none;">
+            <span class="close-btn" style="color: white; text-shadow: 0 0 5px black; top: -30px; right: 0;" onclick="closeCertModal()">&times;</span>
+            <img id="certImage" src="" alt="Certificado" style="max-width: 100%; max-height: 75vh; width: auto; object-fit: contain; border-radius: 10px; box-shadow: 0 15px 30px rgba(0,0,0,0.5);">
+        </div>
+    </div>
+
+    <!-- Modal de Especialidades -->
+    <div id="skillModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle">Título</h3>
+            <p id="modalDesc">Descripción</p>
+        </div>
+    </div>
+
+    <script>
+        function openModal(element) {
+            document.getElementById('modalTitle').innerText = element.innerText;
+            document.getElementById('modalDesc').innerText = element.getAttribute('data-desc');
+            document.getElementById('skillModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('skillModal').classList.remove('show');
+        }
+
+        function openCertModal(element) {
+            document.getElementById('certImage').src = element.getAttribute('data-cert');
+            document.getElementById('certModal').classList.add('show');
+        }
+
+        function closeCertModal() {
+            document.getElementById('certModal').classList.remove('show');
+        }
+
+        window.onclick = function(event) {
+            let skillModal = document.getElementById('skillModal');
+            let certModal = document.getElementById('certModal');
+            if (event.target == skillModal) {
+                skillModal.classList.remove('show');
+            }
+            if (event.target == certModal) {
+                certModal.classList.remove('show');
+            }
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section, .timeline-item, .project-card').forEach(el => {
+            el.classList.add('hidden-anim');
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
